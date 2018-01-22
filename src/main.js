@@ -1,6 +1,8 @@
 var c = document.getElementById("main");
 var v = document.getElementById("vid");
+
 v.pause();
+
 c.width = Math.floor(document.body.scrollWidth);
 c.height = Math.floor(document.body.scrollHeight);
   
@@ -18,30 +20,40 @@ ctx.fillText(
 );
 
 var data = [
-	{x:0, y:0, name:"DUNE", size:100},
-	{x:150, y:150, name:"Spice", size:45},
-	{x:-170, y:-130, name:"Paul", size:70},
-	{x:-300, y:-50, name:"Duke", size:50},
-	{x:-260, y:-280, name:"Jessica", size:60}
+	{x:0, y:20, name:"DUNE", size:110},
+	{x:-170, y:-280, name:"Atreides", size:80},
+	{x:-290, y:-540, name:"Paul", size:70},
+	{x:40, y:-460, name:"Leto", size:50},
+	{x:-20, y:-330, name:"Jessica", size:60},
+	{x:30, y:-190, name:"Bene Gesserit", size:80},
+	{x:0, y:280, name:"Arrakis", size:80},
+	{x:260, y:-280, name:"Harkdonnen", size:80},
+	{x:-370, y:-190, name:"Fremen", size:80},
+	{x:-320, y:90, name:"Spice", size:90},
+	{x:-520, y:260, name:"Carryall", size:60},
+	{x:-400, y:340, name:"Harvester", size:60},
+	{x:330, y:100, name:"Ornithopter", size:60},
+	{x:-520, y:-60, name:"Stillsuit", size:60},
+	{x:200, y:-30, name:"Mentat", size:40},
+	{x:-500, y:-280, name:"Chani", size:60}
 ];
 var condata = [
-	{t1:"DUNE",t2:"Spice"},
-	{t1:"DUNE",t2:"Paul"},
-	{t1:"Paul",t2:"Duke"},
+	{t1:"Paul",t2:"Leto"},
+	{t1:"Paul",t2:"Chani"},
 	{t1:"Paul",t2:"Jessica"},
-	{t1:"Duke",t2:"Jessica"},
+	{t1:"Leto",t2:"Jessica"},
+	{t1:"Atreides",t2:"Leto"},
+	{t1:"Atreides",t2:"Jessica"},
+	{t1:"Atreides",t2:"Paul"},
+	{t1:"Bene Gesserit",t2:"Jessica"}
 ];
 var desdata = [
-	{title:"DUNE by Frank Herbert",vid:"dune.mp4", des:"Dune, written by Frank Herbert,  is a sci-fi masterpiece winning  both the Hugo Award and Nebula   Award for Best Novel. This novel follows the struggles of Paul    Atreides, the heir to the dukedomof the desert planet Arrakis, as he fights back against the House Harkdonnen, the rival who stole  his way of life and the life of  his father."},
-	{title:"Spice",vid:"dune.mp4", des:""},
-	{title:"Paul Atreides",vid:"dune.mp4", des:""},
-	{title:"Leto I Atreides",vid:"dune.mp4", des:""},
-	{title:"Lady Jessica",vid:"dune.mp4", des:""}
+	{title:"DUNE by Frank Herbert",image:"", des:"Dune, written by Frank Herbert,  is a sci-fi masterpiece winning  both the Hugo Award and Nebula   Award for Best Novel. This novel follows the struggles of Paul    Atreides, the heir to the dukedomof the desert planet Arrakis, as he fights back against the House Harkdonnen, the rival who stole  his way of life and the life of  his father."}
 ];
 
 function update(mosx, mosy) {
-	var mouseoffsetx = (originx+(originx*2-mosx))/2;
-	var mouseoffsety = (originy+(originy*2-mosy))/2;
+	var mouseoffsetx = 2*((originx+(originx*2-(mosx*1.5)))/2);
+	var mouseoffsety = 2*((originy+(originy*2-(mosy*1.5)))/2);
 	var desindex = -1;
 	v.style.filter = "blur(30px)";
 	ctx.clearRect(0,0,originx*2,originy*2);
@@ -82,12 +94,9 @@ function update(mosx, mosy) {
 		);
 		if(mosx > mouseoffsetx+data[i].x-data[i].size && mosx < mouseoffsetx+data[i].x+data[i].size) {
 			if(mosy > mouseoffsety-data[i].y-data[i].size && mosy < mouseoffsety-data[i].y+data[i].size) {
-				if(mosy != originy || mosx != originx) {
+				if(mosy != originy*1.5 || mosx != originx*1.5) {
 					desindex = i;
 					v.style.filter = "blur(0px)";
-					if(!(vid.src.toString().substring(vid.src.toString().lastIndexOf("/")+1) === desdata[i].vid)) {
-						v.src = "assets/" + desdata[i].vid;
-					}
 				}
 			}
 		}
@@ -111,7 +120,7 @@ function update(mosx, mosy) {
 
 setTimeout(function(){
 	ctx.font = "10px earth-2073";
-	update(originx,originy);
+	update(originx*1.5,originy*1.5);
 	v.play();
 	c.onmousemove = function() {
 		update(event.clientX, event.clientY);
